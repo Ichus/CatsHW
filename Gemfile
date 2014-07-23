@@ -39,14 +39,20 @@ gem 'spring',        group: :development
 # gem 'debugger', group: [:development, :test]
 
 gem 'rspec-rails', '~> 3.0.1', group: [:development, :test]
-gem 'guard-rspec', require: false, group: :development
+
+group :development do
+  gem 'guard-rspec', require: false
+  gem 'annotate'
+end
 
 group :test do
   gem 'simplecov', require: false
   gem 'capybara'
   gem 'factory_girl_rails'
   gem 'database_cleaner'
+  gem 'shoulda-matchers'
 end
 
 gem 'simple_form'
 gem 'byebug'
+gem 'dragonfly'

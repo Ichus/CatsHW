@@ -27,6 +27,9 @@ GEM
       minitest (~> 5.1)
       thread_safe (~> 0.1)
       tzinfo (~> 1.1)
+    annotate (2.6.5)
+      activerecord (>= 2.3.0)
+      rake (>= 0.8.7)
     arel (5.0.1.20140414130214)
     builder (3.2.2)
     byebug (3.1.2)
@@ -53,6 +56,9 @@ GEM
     debugger-linecache (1.2.0)
     diff-lcs (1.2.5)
     docile (1.1.5)
+    dragonfly (1.0.4)
+      multi_json (~> 1.0)
+      rack
     erubis (2.7.0)
     execjs (2.2.1)
     factory_girl (4.4.0)
@@ -154,6 +160,8 @@ GEM
     sdoc (0.4.0)
       json (~> 1.8)
       rdoc (~> 4.0, < 5.0)
+    shoulda-matchers (2.6.2)
+      activesupport (>= 3.0.0)
     simple_form (3.0.2)
       actionpack (~> 4.0)
       activemodel (~> 4.0)
@@ -194,10 +202,12 @@ PLATFORMS
   ruby
 
 DEPENDENCIES
+  annotate
   byebug
   capybara
   coffee-rails (~> 4.0.0)
   database_cleaner
+  dragonfly
   factory_girl_rails
   guard-rspec
   jbuilder (~> 2.0)
@@ -207,6 +217,7 @@ DEPENDENCIES
   rspec-rails (~> 3.0.1)
   sass-rails (~> 4.0.3)
   sdoc (~> 0.4.0)
+  shoulda-matchers
   simple_form
   simplecov
   spring
