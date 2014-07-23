@@ -1,8 +1,0 @@
-language: ruby
-rvm:
-- 2.0.0
-cache: bundler
-before_script:
-  - psql -c 'create database cats_test;' -U postgres
-  - bundle exec rake db:migrate
-  - bundle exec rake test:prepare
