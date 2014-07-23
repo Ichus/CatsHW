@@ -18,7 +18,34 @@ describe CatsController do
     expect(data['name']).to eq cat.name
   end
 
-  it 'POST :create'
-  it 'PATCH :update'
-  it 'DELETE :destroy'
+  describe 'POST :create' do
+    before { @cat_attributes = attributes_for(:cat) }
+    it 'succeeds when all attributes are set' do
+      post :create, cat: @cat_attributes, format: :json
+      expect(response).to have_http_status(:created)
+      data = JSON.parse(response.body)
+      expect(data).to have_key('name')
+      expect(data['name']).to eq @cat_attributes[:name]
+    end
+
+    it 'fails when a required field is missing' do
+      @cat_attributes[:name] = nil
+      post :create, cat: @cat_attributes, format: :json
+      expect(response).to have_http_status(:unprocessable_entity)
+    end
+  end
+
+  it 'PATCH :update' do
+    cat = create(:cat)
+    patch :update, id: cat.id, cat: {name: 'Jasmine'}, format: :json
+    expect(response).to have_http_status(:no_content)
+    expect(Cat.find(cat.id).name).to eq 'Jasmine'
+  end
+
+  it 'DELETE :destroy' do
+    cat = create(:cat)
+    delete :destroy, id: cat.id, format: :json
+    expect(response).to have_http_status(:no_content)
+    expect{Cat.find(cat.id)}.to raise_error ActiveRecord::RecordNotFound
+  end
 end
