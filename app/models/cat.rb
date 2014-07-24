@@ -16,4 +16,5 @@
 class Cat < ActiveRecord::Base
   dragonfly_accessor :image
   validates :name, :bio, :breed, :catchphrase, presence: true
+  # validates :name, :breed, :catchphrase, length: { maximum: 255 }
 end

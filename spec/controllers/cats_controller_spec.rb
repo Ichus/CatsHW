@@ -21,7 +21,7 @@ describe CatsController do
   describe 'POST :create' do
     before { @cat_attributes = attributes_for(:cat) }
     it 'succeeds when all attributes are set' do
-      expect { post_cat :created }.to change { Cat.count }.by(1)
+      expect { create_cat_expect_status :created }.to change { Cat.count }.by(1)
       data = JSON.parse(response.body)
       expect(data).to have_key('name')
       expect(data['name']).to eq @cat_attributes[:name]
@@ -29,10 +29,23 @@ describe CatsController do
 
     it 'fails when a required field is missing' do
       @cat_attributes[:name] = nil
-      post_cat :unprocessable_entity
+      create_cat_expect_status :unprocessable_entity
     end
 
-    def post_cat(status)
+    it 'fails when extra paramters are required' do
+      @cat_attributes[:invalid_param] = "invalid parameter"
+      expect { post :create, cat: @cat_attributes, format: :json }.to raise_error(ActiveRecord::UnknownAttributeError)
+    end
+
+    it 'fails when string fields are greater than 255 characters' do
+      string_array = Array.new
+      300.times { string_array << "A" }
+      long_string = string_array.join("")
+      @cat_attributes[:name] = @cat_attributes[:breed] = @cat_attributes[:catchphrase] = long_string
+      expect { post :create, cat: @cat_attributes, format: :json }.to raise_error(ActiveRecord::StatementInvalid)
+    end
+
+    def create_cat_expect_status(status)
       post :create, cat: @cat_attributes, format: :json
       expect(response).to have_http_status(status)
     end
